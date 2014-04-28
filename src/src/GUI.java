@@ -1,7 +1,5 @@
 package src;
 
-import java.awt.Toolkit;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +25,7 @@ public class GUI extends javax.swing.JFrame {
         for (int i= 0; i < people.size(); i++) {
             Person p = people.get(i);
             System.out.println("Person " + (i+1) + " is: " + p.fname + " " + p.lname + " with birthday of " +
-                p.bmth + "/" + p.bday + "/" + p.byr + ".");
+                p.fBirthday() + ".");
         }
         update();
         LookupQuery.getDocument().addDocumentListener(new DocumentListener() {
@@ -63,13 +61,13 @@ public class GUI extends javax.swing.JFrame {
         LookupResults = new javax.swing.JTable();
         LookupQuery = new javax.swing.JTextField();
         InfoPanel = new javax.swing.JPanel();
-        EditPanel = new javax.swing.JPanel();
-        editNameLabel = new javax.swing.JLabel();
-        editFName = new javax.swing.JTextField();
-        editMName = new javax.swing.JTextField();
-        editLName = new javax.swing.JTextField();
+        infoTableScroll = new javax.swing.JScrollPane();
+        infoTable = new javax.swing.JTable();
         AccessingRecord = new javax.swing.JLabel();
         RecordIndicator = new javax.swing.JLabel();
+        RecordName = new javax.swing.JLabel();
+        RecordFName = new javax.swing.JLabel();
+        RecordLName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseListener(new java.awt.event.MouseAdapter() {
@@ -123,7 +121,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(LookupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LookupPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(LookupTable, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE))
+                        .addComponent(LookupTable, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE))
                     .addComponent(LookupQuery))
                 .addContainerGap())
         );
@@ -139,60 +137,57 @@ public class GUI extends javax.swing.JFrame {
 
         Tabs.addTab("Lookup", null, LookupPanel, "Search for people and list records.");
 
+        infoTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"First Name:", null, "Last Name:", null},
+                {"Middle Name:", null, "Alias(es):", null},
+                {"Birthday:", "", null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "", "", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        infoTableScroll.setViewportView(infoTable);
+
         javax.swing.GroupLayout InfoPanelLayout = new javax.swing.GroupLayout(InfoPanel);
         InfoPanel.setLayout(InfoPanelLayout);
         InfoPanelLayout.setHorizontalGroup(
             InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addGroup(InfoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+                .addContainerGap())
         );
         InfoPanelLayout.setVerticalGroup(
             InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 447, Short.MAX_VALUE)
+            .addGroup(InfoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         Tabs.addTab("Info", null, InfoPanel, "Display general info of person.");
-
-        editNameLabel.setText("Name:");
-
-        editFName.setText("First Name");
-
-        editMName.setText("Middle Name");
-
-        editLName.setText("Last Name");
-
-        javax.swing.GroupLayout EditPanelLayout = new javax.swing.GroupLayout(EditPanel);
-        EditPanel.setLayout(EditPanelLayout);
-        EditPanelLayout.setHorizontalGroup(
-            EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(editNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editFName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editMName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editLName, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        EditPanelLayout.setVerticalGroup(
-            EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EditPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(EditPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editNameLabel)
-                    .addComponent(editFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editMName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(413, Short.MAX_VALUE))
-        );
-
-        Tabs.addTab("Edit", EditPanel);
 
         AccessingRecord.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         AccessingRecord.setText("Accessing Record:");
 
         RecordIndicator.setText("None");
+
+        RecordName.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        RecordName.setText("Name:");
+
+        RecordFName.setText("-");
+
+        RecordLName.setText("-");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,7 +201,12 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(AccessingRecord)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RecordIndicator)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(RecordName)
+                        .addGap(18, 18, 18)
+                        .addComponent(RecordFName)
+                        .addGap(18, 18, 18)
+                        .addComponent(RecordLName)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -215,7 +215,10 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AccessingRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecordIndicator))
+                    .addComponent(RecordIndicator)
+                    .addComponent(RecordName)
+                    .addComponent(RecordFName)
+                    .addComponent(RecordLName))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -233,8 +236,9 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_update
 
     public void update() {
-        refreshIndicator();
+        refreshIndicators();
         refreshList();
+        refreshInfo();
         //System.out.println("Updated at " + System.currentTimeMillis());
     }
      
@@ -248,15 +252,36 @@ public class GUI extends javax.swing.JFrame {
             JTable target = (JTable)evt.getSource();
             int row = target.getSelectedRow();
             changePerson(getRecord(UUID.fromString((String) target.getValueAt(row, 0))));
+            Tabs.setSelectedIndex(1);
         }
-        refreshIndicator();
+        update();
     }
     
-    public void refreshIndicator(){
-        if (currPerson != null) RecordIndicator.setText(currPerson.id.toString());
-        else RecordIndicator.setText("None");
+    public void refreshIndicators(){
+        if (currPerson != null) {
+            RecordIndicator.setText(currPerson.id.toString());
+            RecordFName.setText(currPerson.fname);
+            RecordLName.setText(currPerson.lname);
+        } else {
+            RecordIndicator.setText("None");
+            RecordFName.setText("-");
+            RecordLName.setText("-");
+        }
     }
-    
+    public void refreshInfo(){
+        DefaultTableModel tbl = (DefaultTableModel) infoTable.getModel();
+        if (currPerson == null) {
+            //tbl.setValueAt("-", 0, 1);
+            //tbl.setValueAt("-", 0, 3);
+            //tbl.setValueAt("-", 1, 1);
+            //tbl.setValueAt("-", 2, 1);
+        } else {
+            tbl.setValueAt(currPerson.fname, 0, 1);
+            tbl.setValueAt(currPerson.lname, 0, 3);
+            tbl.setValueAt(currPerson.mname, 1, 1);
+            tbl.setValueAt(currPerson.fBirthday(), 2, 1);
+        }
+    }
     private void refreshList(){
         clearList();
         if (pResultList.isEmpty()) {
@@ -297,7 +322,7 @@ public class GUI extends javax.swing.JFrame {
         String UUID = p.getRecordID().toString();
         String lname = p.lname;
         String fname = p.fname;
-        String bdate = p.bmth + "/" + p.bday + "/" + p.byr;
+        String bdate = p.fBirthday();
         tbl.addRow(new String[] {UUID,lname,fname,bdate,"None."});
     }
 
@@ -441,17 +466,17 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel AccessingRecord;
-    private static javax.swing.JPanel EditPanel;
     private static javax.swing.JPanel InfoPanel;
     private static javax.swing.JPanel LookupPanel;
     private static javax.swing.JTextField LookupQuery;
     private static javax.swing.JTable LookupResults;
     private static javax.swing.JScrollPane LookupTable;
+    private javax.swing.JLabel RecordFName;
     private static javax.swing.JLabel RecordIndicator;
+    private javax.swing.JLabel RecordLName;
+    private javax.swing.JLabel RecordName;
     private static javax.swing.JTabbedPane Tabs;
-    private static javax.swing.JTextField editFName;
-    private static javax.swing.JTextField editLName;
-    private static javax.swing.JTextField editMName;
-    private static javax.swing.JLabel editNameLabel;
+    private javax.swing.JTable infoTable;
+    private javax.swing.JScrollPane infoTableScroll;
     // End of variables declaration//GEN-END:variables
 }

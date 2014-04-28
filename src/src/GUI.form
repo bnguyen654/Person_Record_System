@@ -34,7 +34,12 @@
                       <Component id="AccessingRecord" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="RecordIndicator" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="RecordName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="RecordFName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="RecordLName" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -48,6 +53,9 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="AccessingRecord" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="RecordIndicator" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RecordName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RecordFName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RecordLName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="Tabs" min="-2" pref="493" max="-2" attributes="0"/>
@@ -84,7 +92,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="LookupTable" pref="662" max="32767" attributes="0"/>
+                              <Component id="LookupTable" pref="761" max="32767" attributes="0"/>
                           </Group>
                           <Component id="LookupQuery" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -163,40 +171,9 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="674" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="447" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-        </Container>
-        <Container class="javax.swing.JPanel" name="EditPanel">
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
-          </AuxValues>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Edit">
-                <Property name="tabTitle" type="java.lang.String" value="Edit"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editNameLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editFName" min="-2" pref="200" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editMName" min="-2" pref="200" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="editLName" pref="204" max="32767" attributes="0"/>
+                      <Component id="infoTableScroll" pref="761" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -205,50 +182,49 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="editNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editFName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editMName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="editLName" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="413" max="32767" attributes="0"/>
+                      <Component id="infoTableScroll" pref="435" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="editNameLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Name:"/>
-              </Properties>
+            <Container class="javax.swing.JScrollPane" name="infoTableScroll">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
-            </Component>
-            <Component class="javax.swing.JTextField" name="editFName">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="First Name"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JTextField" name="editMName">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Middle Name"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JTextField" name="editLName">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Last Name"/>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
-              </AuxValues>
-            </Component>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="infoTable">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="4" rowCount="4">
+                        <Column editable="false" title="" type="java.lang.Object">
+                          <Data value="First Name:"/>
+                          <Data value="Middle Name:"/>
+                          <Data value="Birthday:"/>
+                          <Data value="null"/>
+                        </Column>
+                        <Column editable="true" title="" type="java.lang.Object">
+                          <Data value="null"/>
+                          <Data value="null"/>
+                          <Data value=""/>
+                          <Data value="null"/>
+                        </Column>
+                        <Column editable="false" title="" type="java.lang.Object">
+                          <Data value="Last Name:"/>
+                          <Data value="Alias(es):"/>
+                          <Data value="null"/>
+                          <Data value="null"/>
+                        </Column>
+                        <Column editable="true" title="" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -271,6 +247,24 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="RecordName">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Grande" size="13" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Name:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="RecordFName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="-"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="RecordLName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="-"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

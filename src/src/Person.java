@@ -34,4 +34,7 @@ public class Person implements Serializable {
         public void setName() {
             
         }
+        public String fBirthday(){
+            return bmth + "/" + bday +"/" + byr;
+        }
 }
