@@ -13,11 +13,7 @@ public class Person implements Serializable {
         
 	ArrayList<String> aliases, addresses, vehicles;
 	String DL;
-	
-	public Person(String fnamei, String lnamei) {
-		fname = fnamei; lname = lnamei;
-                id = UUID.randomUUID();
-	}
+        
 	public Person(String fnamei, String mnamei, String lnamei) {
 		fname = fnamei; mname = mnamei; lname = lnamei;
                 id = UUID.randomUUID();

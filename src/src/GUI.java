@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -63,6 +64,17 @@ public class GUI extends javax.swing.JFrame {
         InfoPanel = new javax.swing.JPanel();
         infoTableScroll = new javax.swing.JScrollPane();
         infoTable = new javax.swing.JTable();
+        NewPerson = new javax.swing.JPanel();
+        NewSave = new javax.swing.JButton();
+        NewNameLabel = new javax.swing.JLabel();
+        NewFName = new javax.swing.JTextField();
+        NewLName = new javax.swing.JTextField();
+        NewMName = new javax.swing.JTextField();
+        NewClear = new javax.swing.JButton();
+        BirthdayLabel = new javax.swing.JLabel();
+        NewBMonth = new javax.swing.JComboBox();
+        NewBDay = new javax.swing.JComboBox();
+        NewBYear = new javax.swing.JComboBox();
         AccessingRecord = new javax.swing.JLabel();
         RecordIndicator = new javax.swing.JLabel();
         RecordName = new javax.swing.JLabel();
@@ -75,6 +87,8 @@ public class GUI extends javax.swing.JFrame {
                 update(evt);
             }
         });
+
+        Tabs.setToolTipText("");
 
         LookupResults.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,7 +145,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(LookupQuery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LookupTable, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addComponent(LookupTable, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -171,11 +185,105 @@ public class GUI extends javax.swing.JFrame {
             InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         Tabs.addTab("Info", null, InfoPanel, "Display general info of person.");
+
+        NewPerson.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                NewPersonComponentShown(evt);
+            }
+        });
+
+        NewSave.setText("Save");
+        NewSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewSaveActionPerformed(evt);
+            }
+        });
+
+        NewNameLabel.setText("Name:");
+
+        NewFName.setText("First Name");
+        NewFName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewFNameActionPerformed(evt);
+            }
+        });
+
+        NewLName.setText("Last Name");
+
+        NewMName.setText("Middle Name");
+
+        NewClear.setText("Clear");
+
+        BirthdayLabel.setText("Birthday:");
+
+        NewBMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "January", "February", "March", "April", "May", "July", "August", "September", "October", "November", "December" }));
+        NewBMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NewBMonthActionPerformed(evt);
+            }
+        });
+
+        NewBDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+
+        javax.swing.GroupLayout NewPersonLayout = new javax.swing.GroupLayout(NewPerson);
+        NewPerson.setLayout(NewPersonLayout);
+        NewPersonLayout.setHorizontalGroup(
+            NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NewPersonLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(NewClear)
+                .addGap(18, 18, 18)
+                .addComponent(NewSave)
+                .addContainerGap())
+            .addGroup(NewPersonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(NewPersonLayout.createSequentialGroup()
+                        .addComponent(NewNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(NewFName, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(NewMName, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(NewLName, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(NewPersonLayout.createSequentialGroup()
+                        .addComponent(BirthdayLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addComponent(NewBMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(NewBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(NewBYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(498, 498, 498))))
+        );
+        NewPersonLayout.setVerticalGroup(
+            NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NewPersonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NewNameLabel)
+                    .addComponent(NewFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewMName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BirthdayLabel)
+                    .addComponent(NewBMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NewBYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
+                .addGroup(NewPersonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NewSave)
+                    .addComponent(NewClear)))
+        );
+
+        Tabs.addTab("New", NewPerson);
 
         AccessingRecord.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         AccessingRecord.setText("Accessing Record:");
@@ -246,6 +354,65 @@ public class GUI extends javax.swing.JFrame {
         tableSelection(evt);
         //System.out.println("Table selected at " + System.currentTimeMillis());
     }//GEN-LAST:event_LookupResultsMousePressed
+
+    private void NewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewSaveActionPerformed
+        String fn;
+        String mn;
+        String ln;
+        int bm;
+        int bd;
+        int by;
+        Person p = new Person(fn, mn, ln);
+        p.setBirthday(bm, bd, by);
+    }//GEN-LAST:event_NewSaveActionPerformed
+
+    private void NewFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NewFNameActionPerformed
+
+    private void NewBMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewBMonthActionPerformed
+        String sel = (String) NewBMonth.getSelectedItem();
+        int seln = 0; //0 = null; 1 = 31; 2 = 30; 3 = 29;
+        switch(sel) {
+            case "January": case "March": case "May": case "July": case "August": case "October": case "December":
+                seln = 1;
+                break;
+            case "April": case "June": case "September": case "November":
+                seln = 2;
+                break;
+            case "February":
+                seln = 3;
+                break;
+            default:
+                seln = 0;
+                break;
+        }
+        if(seln == 1) {
+            NewBDay.removeAllItems();
+            for (int ct = 1; ct <= 31; ct++){
+                NewBDay.addItem(ct);
+            }
+        } else if(seln == 2) {
+            NewBDay.removeAllItems();
+            for (int ct = 1; ct <= 30; ct++){
+                NewBDay.addItem(ct);
+            }
+        } else if(seln == 3) {
+            NewBDay.removeAllItems();
+            for (int ct = 1; ct <= 29; ct++){
+                NewBDay.addItem(ct);
+            }
+        }
+    }//GEN-LAST:event_NewBMonthActionPerformed
+
+    private void NewPersonComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_NewPersonComponentShown
+        int yr = Calendar.getInstance().get(Calendar.YEAR);
+        int end = yr - 150;
+        for (int i = end; i <= yr; i++){
+            NewBYear.addItem(i);
+        }
+        NewBYear.setSelectedIndex(150);
+    }//GEN-LAST:event_NewPersonComponentShown
 
     public void tableSelection(java.awt.event.MouseEvent evt){
         if(evt.getClickCount() >=2 ) {
@@ -466,11 +633,22 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel AccessingRecord;
+    private javax.swing.JLabel BirthdayLabel;
     private static javax.swing.JPanel InfoPanel;
     private static javax.swing.JPanel LookupPanel;
     private static javax.swing.JTextField LookupQuery;
     private static javax.swing.JTable LookupResults;
     private static javax.swing.JScrollPane LookupTable;
+    private javax.swing.JComboBox NewBDay;
+    private javax.swing.JComboBox NewBMonth;
+    private javax.swing.JComboBox NewBYear;
+    private javax.swing.JButton NewClear;
+    private javax.swing.JTextField NewFName;
+    private javax.swing.JTextField NewLName;
+    private javax.swing.JTextField NewMName;
+    private javax.swing.JLabel NewNameLabel;
+    private javax.swing.JPanel NewPerson;
+    private javax.swing.JButton NewSave;
     private javax.swing.JLabel RecordFName;
     private static javax.swing.JLabel RecordIndicator;
     private javax.swing.JLabel RecordLName;

@@ -19,7 +19,7 @@ public class TestPeople {
 
     public static Person generate() {
         Random rdm = new Random();
-        Person p = new Person(fnames[rdm.nextInt(fnames.length)], lnames[rdm.nextInt(lnames.length)]);
+        Person p = new Person(fnames[rdm.nextInt(fnames.length)], "", lnames[rdm.nextInt(lnames.length)]);
         int mth = rdm.nextInt(11) + 1;
         int dylmt;
         switch (mth) {
