@@ -18,15 +18,21 @@ import javax.swing.table.DefaultTableModel;
 public class GUI extends javax.swing.JFrame {
     static Person currPerson = null;
     static ArrayList<Person> pResultList = new ArrayList<Person>();
-    static ArrayList<Person> people = TestPeople.genList(5);
-    static ArrayList<UUID> ids = TestPeople.getIds();
+    static ArrayList<Person> people = /**TestPeople.genList(5) loadList()*/ new ArrayList<Person>();
+    static ArrayList<UUID> ids = /**TestPeople.getIds() (ArrayList<UUID>) loadIDs()*/ new ArrayList<UUID>();
     
     public GUI() {
         initComponents();
-        for (int i= 0; i < people.size(); i++) {
+        /**for (int i= 0; i < people.size(); i++) {
             Person p = people.get(i);
             System.out.println("Person " + (i+1) + " is: " + p.fname + " " + p.lname + " with birthday of " +
                 p.fBirthday() + ".");
+        } */
+        for (Person p : loadList()){
+            people.add(p);
+        }
+        for (UUID i : loadIDs()){
+            ids.add(i);
         }
         update();
         LookupQuery.getDocument().addDocumentListener(new DocumentListener() {
@@ -343,7 +349,7 @@ public class GUI extends javax.swing.JFrame {
         update();
     }//GEN-LAST:event_update
 
-    public void update() {
+    public static void update() {
         refreshIndicators();
         refreshList();
         refreshInfo();
@@ -356,14 +362,29 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_LookupResultsMousePressed
 
     private void NewSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewSaveActionPerformed
-        String fn;
-        String mn;
-        String ln;
-        int bm;
-        int bd;
-        int by;
-        Person p = new Person(fn, mn, ln);
-        p.setBirthday(bm, bd, by);
+        String fn = NewFName.getText();
+        String mn = NewMName.getText();
+        String ln = NewLName.getText();
+        String bmin = (String) NewBMonth.getSelectedItem();
+        int bm = 0;
+        switch(bmin) {
+            case "January": bm = 1;
+            case "February": bm = 2;
+            case "March": bm = 3;
+            case "April": bm = 4;
+            case "May": bm = 5;
+            case "June": bm = 6;
+            case "July": bm = 7;
+            case "August": bm = 8;
+            case "September": bm = 9;
+            case "October": bm = 10;
+            case "November": bm = 11;
+            case "December": bm = 12;
+            default: bm = 0;
+        }
+        int bd = Integer.parseInt((String) NewBDay.getSelectedItem());
+        int by = Integer.parseInt((String) NewBYear.getSelectedItem());
+        addPerson(fn, mn, ln, bm, bd, by);
     }//GEN-LAST:event_NewSaveActionPerformed
 
     private void NewFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFNameActionPerformed
@@ -424,18 +445,18 @@ public class GUI extends javax.swing.JFrame {
         update();
     }
     
-    public void refreshIndicators(){
+    public static void refreshIndicators(){
         if (currPerson != null) {
             RecordIndicator.setText(currPerson.id.toString());
             RecordFName.setText(currPerson.fname);
             RecordLName.setText(currPerson.lname);
         } else {
-            RecordIndicator.setText("None");
-            RecordFName.setText("-");
-            RecordLName.setText("-");
+            //RecordIndicator.setText("None");
+            //RecordFName.setText("-");
+            //RecordLName.setText("-");
         }
     }
-    public void refreshInfo(){
+    public static void refreshInfo(){
         DefaultTableModel tbl = (DefaultTableModel) infoTable.getModel();
         if (currPerson == null) {
             //tbl.setValueAt("-", 0, 1);
@@ -449,7 +470,7 @@ public class GUI extends javax.swing.JFrame {
             tbl.setValueAt(currPerson.fBirthday(), 2, 1);
         }
     }
-    private void refreshList(){
+    private static void refreshList(){
         clearList();
         if (pResultList.isEmpty()) {
             for (Person person : people) {
@@ -477,14 +498,14 @@ public class GUI extends javax.swing.JFrame {
         DefaultTableModel tbl = (DefaultTableModel) LookupResults.getModel();
         tbl.removeRow(row);
     }
-    public void clearList(){
+    public static void clearList(){
         DefaultTableModel tbl = (DefaultTableModel) LookupResults.getModel();
         while (tbl.getRowCount() > 0) {
             tbl.removeRow(0);
         }
         
     }
-    public void addList(Person p) {
+    public static void addList(Person p) {
         DefaultTableModel tbl = (DefaultTableModel) LookupResults.getModel();
         String UUID = p.getRecordID().toString();
         String lname = p.lname;
@@ -528,6 +549,7 @@ public class GUI extends javax.swing.JFrame {
     public static void reloadFromFile(){
         people = loadList();
         ids = loadIDs();
+        //update();
     }
     public static Person getRecord(UUID id) {
         return people.get(ids.indexOf(id));
@@ -621,14 +643,16 @@ public class GUI extends javax.swing.JFrame {
         return loadIDs();
     }
     
-    public static void addPerson(String fname, String lname) {
+    public static void addPerson(String fname, String mname, String lname, int bm, int bd, int by) {
         System.out.println("-----------------\nAttempting to add " + fname + " " + lname + " to lists...");
-        Person p = new Person(fname, lname);
+        Person p = new Person(fname, mname, lname);
+        p.setBirthday(bm, bd, by);
         people.add(p);
         p.setIndex(people.indexOf(p));
         ids.add(p.index, p.id);
         System.out.println(fname + " " + lname + " added to lists.");
         saveLists();
+        reloadFromFile();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -649,12 +673,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel NewNameLabel;
     private javax.swing.JPanel NewPerson;
     private javax.swing.JButton NewSave;
-    private javax.swing.JLabel RecordFName;
+    private static javax.swing.JLabel RecordFName;
     private static javax.swing.JLabel RecordIndicator;
-    private javax.swing.JLabel RecordLName;
+    private static javax.swing.JLabel RecordLName;
     private javax.swing.JLabel RecordName;
     private static javax.swing.JTabbedPane Tabs;
-    private javax.swing.JTable infoTable;
+    private static javax.swing.JTable infoTable;
     private javax.swing.JScrollPane infoTableScroll;
     // End of variables declaration//GEN-END:variables
 }
