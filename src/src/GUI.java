@@ -70,6 +70,8 @@ public class GUI extends javax.swing.JFrame {
         InfoPanel = new javax.swing.JPanel();
         infoTableScroll = new javax.swing.JScrollPane();
         infoTable = new javax.swing.JTable();
+        InfoSave = new javax.swing.JButton();
+        InfoDelete = new javax.swing.JButton();
         NewPerson = new javax.swing.JPanel();
         NewSave = new javax.swing.JButton();
         NewNameLabel = new javax.swing.JLabel();
@@ -178,21 +180,44 @@ public class GUI extends javax.swing.JFrame {
         });
         infoTableScroll.setViewportView(infoTable);
 
+        InfoSave.setText("Save");
+        InfoSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InfoSaveActionPerformed(evt);
+            }
+        });
+
+        InfoDelete.setText("Delete");
+        InfoDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InfoDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout InfoPanelLayout = new javax.swing.GroupLayout(InfoPanel);
         InfoPanel.setLayout(InfoPanelLayout);
         InfoPanelLayout.setHorizontalGroup(
             InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+                .addGroup(InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InfoPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(InfoDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(InfoSave)))
                 .addContainerGap())
         );
         InfoPanelLayout.setVerticalGroup(
             InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InfoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(infoTableScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(infoTableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(InfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InfoSave)
+                    .addComponent(InfoDelete)))
         );
 
         Tabs.addTab("Info", null, InfoPanel, "Display general info of person.");
@@ -382,9 +407,11 @@ public class GUI extends javax.swing.JFrame {
             case "December": bm = 12;
             default: bm = 0;
         }
-        int bd = Integer.parseInt((String) NewBDay.getSelectedItem());
-        int by = Integer.parseInt((String) NewBYear.getSelectedItem());
+        int bd = (int) NewBDay.getSelectedItem();
+        int by = (int) NewBYear.getSelectedItem();
         addPerson(fn, mn, ln, bm, bd, by);
+        changePerson(people.get(people.size()-1));
+        update();
     }//GEN-LAST:event_NewSaveActionPerformed
 
     private void NewFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewFNameActionPerformed
@@ -434,6 +461,14 @@ public class GUI extends javax.swing.JFrame {
         }
         NewBYear.setSelectedIndex(150);
     }//GEN-LAST:event_NewPersonComponentShown
+
+    private void InfoDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InfoDeleteActionPerformed
+
+    private void InfoSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InfoSaveActionPerformed
 
     public void tableSelection(java.awt.event.MouseEvent evt){
         if(evt.getClickCount() >=2 ) {
@@ -658,7 +693,9 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel AccessingRecord;
     private javax.swing.JLabel BirthdayLabel;
+    private javax.swing.JButton InfoDelete;
     private static javax.swing.JPanel InfoPanel;
+    private javax.swing.JButton InfoSave;
     private static javax.swing.JPanel LookupPanel;
     private static javax.swing.JTextField LookupQuery;
     private static javax.swing.JTable LookupResults;
